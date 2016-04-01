@@ -1,0 +1,39 @@
+##Normalmente se utiliza el modelo aditivo... este modelo es apropiado cuando la magnitud de las fluctuaciones estacionales de la serie no varia al hacerlo la tendencia.
+##Se utiliza el multiplicativo... cuando la magnitud de las fluctuaciones estacionales de la serie crece y decreceproporcionalmente con los crecimientos y decrecimientos de la tendencia, respect.
+###una vez que logramos descomponer la st en diversos los elementos de estacionalidad y tendencia hay que desestacionalizar la st y eliminar la tendencia
+##Existe tendencia cuando existe un patron en los datos a largo plazo ya sea que aumenta o disminuye los datos
+##La estacionalidad existe cuando la st es influenciado por factores estacionales (por ejemplo, el trimestre del año, el mes, o el día de la semana)
+##Existe componente de ciclicos en los datos cuando se detectan incrementos y caídas que no son de tiempo determinado(duración por lo general de al menos 2 años)
+##De estos 3 elementos normalmente existen confusiones para detectar entre:
+##la estacionalidad y el componente ciclico
+##Principales diferencias entre estos dos componentes
+##1)patrón estacional longitud constante; patrón ciclico longitud variables
+##2)duración media del componente ciclico mas largo que la longitud del patron estacional
+##3)magnitud de ciclico mas variable que magnitud del patron estacional
+##4)El momento de picos y caidas es predecible con los datos estacionales, pero impredecible a largo plazo con datos ciclicos
+install.packages("fpp")
+require (fpp)
+help (fpp)
+plot(window(elec,start=1980), ylab="GWH",xlab="Year",main="AEP")
+##ESTACIONALIDAD, TENDENCIA Y NO CICLO
+plot(bricksq,ylab="million units",xlab="year",main="ACBP")
+##ESTACIONALIDAD Y CICLO, NO MUCHA TENDENCIA
+plot(hsales,main="Sales of one family houses, USA", ylab="Total sales",xlab="Year")
+##NO ESTACIONALIDAD NI TENDENCIA, POSIBLE CICLO
+ICAA<- read.csv ("C:\\Users\\SALA-C21\\Downloads\\table (2).csv", header=T)
+ICATS<-ts(ICAA[ ,5], start = 2000, frequency=12)
+LIV<- read.csv ("C:\\Users\\SALA-C21\\Downloads\\table (3).csv", header=T)
+LIVER<-ts(LIV[,5], start = 2000, frequency=12)
+WAL<- read.csv ("C:\\Users\\SALA-C21\\Downloads\\table (4).csv", header=T)
+WALMEX<-ts(WAL[,5], start = 2003, frequency=12)
+plot(ICATS, main="Valor acciones ICA", ylab="valor cierre")
+plot(LIVER, main="Valor acciones LIVERPOOL", ylab="valor cierre")
+plot(WALMEX, main="Valor acciones WALMEX", ylab="valor cierre")
+seriemulta<-ts.intersect(ICATS,LIVER,WALMEX)
+plot(seriemulta, main="Valor acciones", ylab="valor cierre")
+pdf(file="seriemulta.pdf")
+dev.off()
+##ICA:PRESENTO UNA ESTABILIDAD HASTA 2008 DONDE CRECIO BASTANTE A PARTIR DE QUE DECRECIO EN 2010 PRESENTO UNA TENDENCIA DE ESTABILIDAD MUY BAJA Y NO TIENE ESTACIONALIDAD
+##LIVERPOOL: HA PRESENTADO UN CRECIMIENTO DESDE EL 2000 CON UN DECRECIMIENTO CERCA DEL 2010 PODRIAMOS DECIR QUE ES UN POCO CICLICA, NO PRESENTA TENDENCIA Y A PRINCIPIO DE CADA PERIODO DE CADA 5 AÑOS DE PRESENTA UN DECRECIMIENTO CON UN GRAN CRECIMIENTO AL FINAL DE CADA PERIODO POR LO QUE SE PODRIA DECIR QUE TIENE UN POCO DE ESTACIONALIDAD
+##WALMEX: PODEMOS NOTAR QUE TIENE UN COMPORTAMIENTO CICLICO, NO PRESENTA TENDENCIA PERO EN LOS AÑOS 2006 Y 2010 NOTAMOS QUE A PRINCIPIO DE ESTOS AÑOS HAY UN DECRECIMIENTO IMPORTANTE POR LO QUE PODEMOS DECIR QUE HAY UN POCO DE ESTACIONALIDAD
+##DESPUES DE ANALIZAR CADA EMPRESA CONSIDERO QUE EN LA QUE ES MAS CONVENIENTE INVERTIR ES EN LIVERPOOL
